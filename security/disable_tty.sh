@@ -1,5 +1,5 @@
 #!/bin/bash
-
+tty() {
 # Pick the default TTY used to open the graphical interface or user access
 read -p "Input your number of default TTY: " tty_atual
 
@@ -17,3 +17,5 @@ do
         echo "TTY $tty_numero disabled"
     fi
 done
+}
+tty
