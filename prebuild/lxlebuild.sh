@@ -190,8 +190,16 @@ sudo echo > /etc/NetworkManager/system-connections/'Wired connection 1.nmconnect
 sudo echo -ne -n -e "[connection]\nid=Wired connection 1\nuuid=13bcb68f-de1d-39df-ae30-9bcc7964ce9a\ntype=ethernet\nautoconnect-priority=-999\ninterface-name=enp3s0\npermissions=user:qwerty:;\n[ethernet]\ncloned-mac-address=stable\nmac-address-blacklist=\nwake-on-lan=32768\n[ipv4]\naddress1=${iplocal}/32,${iprouterl}\ndns=1.1.1.1;9.9.9.9;\ndns-search=\nmethod=manual\n[ipv6]\naddr-gen-mode=stable-privacy\ndns-search=\nip6-privacy=0\nmethod=disabled\n[proxy]" > /etc/NetworkManager/system-connections/'Wired connection 1.nmconnection'
 }
 
+florence() {
+sudo apt -y update
+sudo apt -y install florence
+echo -ne -n -e "#!/usr/bin/env\n[Desktop Entry]\nType=Application\nName=Florence\nGenericName=VirtualKeyboard\nComment= To Start the floroence\nCategories=Keyboard\nExec=sh -c florence\nStartupWMClass=Florence\n" > ~/florence.desktop
+}
+
+
 sysctl
 packages
 config
 network
 iptables
+florence
