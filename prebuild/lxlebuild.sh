@@ -167,6 +167,10 @@ sudo cp -r /media/qwerty/86ACDBF8ACDBE12B/Users/user/Desktop/1/i2pd/security.pro
 sudo apt -y update && sudo apt -y install gufw
 sudo apt -y install obconf-qt obsession openbox openbox-menu net-tools pcmanfm && sudo apt -y install featherpad tor
 sudo systemctl stop avahi-daemon && sudo systemctl disable avahi-daemon
+sudo addgroup $USER audio
+sudo apt -y install pavucontrol;sudo apt -y install pulseaudio
+pulseaudio --stop
+pulseaudio --start
 }
 
 iptables() {
@@ -203,3 +207,4 @@ config
 network
 iptables
 florence
+pavucontrol
