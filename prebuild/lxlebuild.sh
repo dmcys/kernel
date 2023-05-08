@@ -152,6 +152,8 @@ sudo apt -y remove --purge aspell-en cracklib-runtime hunspell-en-us libgdbm-com
 sudo apt -y remove --purge lxde* lxrandr libilmbase24 && sudo apt -y remove --purge rsync sntp tcpd telnet xzoom libxrandr2
 sudo apt -y remove --purge xcal tcl bc dc deborphan psmisc aptitude fortune && sudo apt -y remove --purge --allow-remove-essential dash xterm
 sudo apt -y remove --purge peg-e zaz connectagram && sudo apt -y remove --purge simple-image-reducer && sudo apt -y remove --purge cups avahi-daemon 
+sudo apt -y remove --purge samba*
+sudo apt -y remove --purge smbclient
 }
 
 config() {
@@ -171,6 +173,8 @@ sudo addgroup $USER audio
 sudo apt -y install pavucontrol;sudo apt -y install pulseaudio
 pulseaudio --stop
 pulseaudio --start
+sudo apt -y remove --purge samba*
+sudo apt -y remove --purge smbclient
 }
 
 iptables() {
