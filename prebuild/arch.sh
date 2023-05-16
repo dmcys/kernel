@@ -153,8 +153,26 @@ sudo iptables -Z
 sudo iptables -P INPUT DROP
 sudo iptables -P FORWARD DROP
 sudo iptables -P OUTPUT DROP
+
 while read ip; do sudo iptables -A INPUT -s "$ip" -j DROP; done < ccidrlist.txt
 while read ip; do sudo iptables -A OUTPUT -s "$ip" -j DROP; done < ccidrlist.txt
+
+sudo iptables -A INPUT -m state --state INVALID -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL FIN,URG,PSH -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+sudo iptables -N flood
+sudo iptables -A flood -m limit --limit 5/sec --limit-burst 10 -j RETURN
+sudo iptables -A flood -j DROP
+sudo iptables -A INPUT -p tcp --syn -j flood
+sudo iptables -A INPUT -p tcp --tcp-flags SYN,ACK SYN,ACK -m conntrack --ctstate NEW -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags FIN,ACK FIN,ACK -m conntrack --ctstate NEW -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL SYN,FIN,ACK -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+sudo iptables -A INPUT -f -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+sudo iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 170.245.12.0/22 -j DROP
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 189.90.51.52/30 -j DROP
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 143.137.72.128/25 -j DROP
