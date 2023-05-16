@@ -152,7 +152,6 @@ sudo iptables -Z
 sudo iptables -P INPUT DROP
 sudo iptables -P FORWARD DROP
 sudo iptables -P OUTPUT DROP
-#sudo iptables -A ufw-before-forward -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 170.245.12.0/22 -j DROP
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 189.90.51.52/30 -j DROP
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 143.137.72.128/25 -j DROP
@@ -312,7 +311,7 @@ echo "Clean up complete!"
 }
 
 sysctl
-#iptables
-#tty
-#packages
+iptables
+tty
+packages
 #cleanlogs
