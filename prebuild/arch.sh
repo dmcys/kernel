@@ -210,6 +210,23 @@ sudo iptables -A INPUT -s 223.255.255.254/32 -d 143.137.72.64/27 -j DROP
 sudo iptables -A INPUT -s 223.255.255.254/32 -d 161.22.56.0/21 -j DROP
 sudo iptables -A INPUT -d 200.186.35.92/30 -j DROP
 sudo iptables -A INPUT -d 177.53.240.136/29 -j DROP
+
+sudo iptables -A OUTPUT -m state --state INVALID -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL FIN,URG,PSH -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+sudo iptables -N flood
+sudo iptables -A flood -m limit --limit 5/sec --limit-burst 10 -j RETURN
+sudo iptables -A flood -j DROP
+sudo iptables -A OUTPUT -p tcp --syn -j flood
+sudo iptables -A OUTPUT -p tcp --tcp-flags SYN,ACK SYN,ACK -m conntrack --ctstate NEW -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags FIN,ACK FIN,ACK -m conntrack --ctstate NEW -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL NONE -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL SYN,FIN,ACK -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
+sudo iptables -A OUTPUT -f -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL ALL -j DROP
+sudo iptables -A OUTPUT -p tcp --tcp-flags ALL NONE -j DROP
+
 sudo iptables -A OUTPUT -s 223.255.255.254/32 -d 170.245.12.0/22 -j DROP
 sudo iptables -A OUTPUT -s 223.255.255.254/32 -d 189.90.51.52/30 -j DROP
 sudo iptables -A OUTPUT -s 223.255.255.254/32 -d 143.137.72.128/25 -j DROP
